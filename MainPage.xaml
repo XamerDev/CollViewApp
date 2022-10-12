@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:CollViewApp.ViewModels"
+             x:Class="CollViewApp.MainPage">
+    <ContentPage.BindingContext>
+        <viewModel:MainPageViewModel/>
+    </ContentPage.BindingContext>
+    <Grid RowDefinitions="80,*" >
+
+        <Border>
+            <Label Text="Try scrolling after: 1) deleting item 2) rotate phone to landscape mode and back to normal. Read comments in mainPageViewModel"/>
+        </Border>
+
+        <CollectionView Grid.Row="1" x:Name="collectionView" ItemsSource="{Binding Items}" IsGrouped="true" >
+            
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Grid HeightRequest="50">
+                        <Label Text="testheader"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate>
+                    <Grid  HeightRequest="50">
+                        <Label  Text="testFooter" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView HeightRequest="40">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal" />
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Delete" 
+                                       
+                                       BackgroundColor="Red"
+                                            Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=collectionView}}"
+                                               CommandParameter="{Binding .}"
+                                                />
+                               
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid  HeightRequest="40" CompressedLayout.IsHeadless="True" RowDefinitions="20,80" ColumnDefinitions="50,50,50,50,50,50,50">
+                            <BoxView Color="LightBlue"/>
+                            <Label Text="test" Grid.Column="1" Grid.ColumnSpan="7"  FontAttributes="Bold" LineBreakMode="TailTruncation" FontSize="Small"/>
+                            <Label Grid.Column="6" Grid.Row="0"  Text="test"  FontAttributes="Bold" FontSize="Small"/>
+
+                            <Label Grid.Column="1" Grid.Row="1"  Text="test" FontSize="Micro"/>
+                            <Label Grid.Column="2" Grid.Row="1"  Text="test" FontSize="Micro"/>
+                            <Label Grid.Column="3" Grid.Row="1"  Text="test" FontSize="Micro"/>
+                            <Label Grid.Column="4" Grid.Row="1"  Text="x" FontSize="Micro"/>
+                            <Label Grid.Column="5" Grid.Row="1"  Text="test" FontSize="Micro"/>
+                            <Label Grid.Column="6" Grid.Row="1"  Text="test" FontSize="Micro"/>
+
+
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
